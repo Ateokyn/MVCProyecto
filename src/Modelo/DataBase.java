@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class DataBase {
 
-    private final String URL = "jdbs:sqlserver://localhost:1433;databaseName=PRESTAMO;"
+    private final String URL = "jdbs:sqlserver://localhost:1434;databaseName=PRESTAMOS;"
             + "integratedSecurity=true;" + "encript=true;trustServerCertificate=true";
 
     private Connection conexion;
