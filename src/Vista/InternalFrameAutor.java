@@ -29,13 +29,13 @@ public class InternalFrameAutor extends javax.swing.JInternalFrame {
         jtxtIDAutor.setText("");
         jtxtNombreAutor.setText("");
         jtxtApellidoAutor.setText("");
-        jtxtCedulaAutor1.setText("");
+        jtxtCedulaAutor.setText("");
         jtxtFechaNAutor.setText("");
-        jtxtEmailAutor1.setText("");
+        jtxtEmailAutor.setText("");
     }
     
     public void obtenerDatos() {
-        List<Autor> autores = new DAOAutor().ObtenerDatos(WIDTH);
+        List<Autor> autores = new DAOAutor().ObtenerDatos();
         DefaultTableModel modelo = new DefaultTableModel();
         
         String[] columnas = {"id_autor", "Nombres", "Apellidos",
@@ -55,12 +55,12 @@ public class InternalFrameAutor extends javax.swing.JInternalFrame {
         int id = Integer.parseInt(this.jtxtIDAutor.getText());
         String nom = this.jtxtNombreAutor.getText();
         String ape = this.jtxtApellidoAutor.getText();
-        String corr = this.jtxtEmailAutor1.getText();
-        String ced = this.jtxtCedulaAutor1.getText();
+        String corr = this.jtxtEmailAutor.getText();
+        String ced = this.jtxtCedulaAutor.getText();
         Date fec = Date.valueOf(this.jtxtFechaNAutor.getText());
         
         DAOAutor dao = new DAOAutor();
-        int res = dao.Actualizar(id, nom, ape, ape, fec);
+        int res = dao.Actualizar(id, nom, ape, corr, ced, fec);
         if(res == 1){
             JOptionPane.showMessageDialog(rootPane, "Autor Actualizado");
         }else{
@@ -82,13 +82,13 @@ public class InternalFrameAutor extends javax.swing.JInternalFrame {
         jtxtIDAutor = new javax.swing.JTextField();
         jtxtNombreAutor = new javax.swing.JTextField();
         jtxtFechaNAutor = new javax.swing.JTextField();
-        jtxtCedulaAutor1 = new javax.swing.JTextField();
+        jtxtCedulaAutor = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jtxtEmailAutor1 = new javax.swing.JTextField();
+        jtxtEmailAutor = new javax.swing.JTextField();
         panel2 = new javax.swing.JPanel();
         jtxtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
@@ -101,6 +101,7 @@ public class InternalFrameAutor extends javax.swing.JInternalFrame {
         JTableAutor = new javax.swing.JTable();
 
         setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
@@ -151,9 +152,9 @@ public class InternalFrameAutor extends javax.swing.JInternalFrame {
                             .addComponent(jtxtIDAutor, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
                             .addComponent(jtxtNombreAutor)
                             .addComponent(jtxtApellidoAutor)
-                            .addComponent(jtxtCedulaAutor1)
+                            .addComponent(jtxtCedulaAutor)
                             .addComponent(jtxtFechaNAutor)
-                            .addComponent(jtxtEmailAutor1))))
+                            .addComponent(jtxtEmailAutor))))
                 .addGap(36, 36, Short.MAX_VALUE))
         );
         panel1Layout.setVerticalGroup(
@@ -173,7 +174,7 @@ public class InternalFrameAutor extends javax.swing.JInternalFrame {
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtxtCedulaAutor1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtxtCedulaAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addGap(18, 18, 18)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -182,7 +183,7 @@ public class InternalFrameAutor extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(jtxtEmailAutor1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtxtEmailAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29))
         );
 
@@ -190,6 +191,11 @@ public class InternalFrameAutor extends javax.swing.JInternalFrame {
 
         btnBuscar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         btnEditar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnEditar.setText("Editar");
@@ -315,8 +321,8 @@ public class InternalFrameAutor extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         String nomb = jtxtNombreAutor.getText();
         String apell = jtxtApellidoAutor.getText();
-        String ema = jtxtEmailAutor1.getText();
-        String ced = jtxtEmailAutor1.getText();
+        String ema = jtxtEmailAutor.getText();
+        String ced = jtxtCedulaAutor.getText();
         String fecN = jtxtFechaNAutor.getText();
         
         if(nomb.contentEquals("") || apell.contentEquals("") || 
@@ -354,8 +360,8 @@ public class InternalFrameAutor extends javax.swing.JInternalFrame {
                 jtxtIDAutor.setText("" + id);
                 jtxtNombreAutor.setText(nom);
                 jtxtApellidoAutor.setText(ape);
-                jtxtEmailAutor1.setText(corr);
-                jtxtCedulaAutor1.setText(ced);
+                jtxtEmailAutor.setText(corr);
+                jtxtCedulaAutor.setText(ced);
                 jtxtFechaNAutor.setText(String.valueOf(fec));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -384,6 +390,10 @@ public class InternalFrameAutor extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_btnBorrarActionPerformed
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable JTableAutor;
@@ -401,8 +411,8 @@ public class InternalFrameAutor extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jtxtApellidoAutor;
     private javax.swing.JTextField jtxtBuscar;
-    private javax.swing.JTextField jtxtCedulaAutor1;
-    private javax.swing.JTextField jtxtEmailAutor1;
+    private javax.swing.JTextField jtxtCedulaAutor;
+    private javax.swing.JTextField jtxtEmailAutor;
     private javax.swing.JTextField jtxtFechaNAutor;
     private javax.swing.JTextField jtxtIDAutor;
     private javax.swing.JTextField jtxtNombreAutor;

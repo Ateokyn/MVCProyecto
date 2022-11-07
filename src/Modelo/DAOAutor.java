@@ -6,7 +6,7 @@
 package Modelo;
 
 import java.sql.Date;
-import java.util.*;
+import java.util.*; 
 
 /**
  *
@@ -14,13 +14,13 @@ import java.util.*;
  */
 public class DAOAutor {
     
-    public Autor Insertar(String cedula, String nombres, String apellidos, String email, java.sql.Date fechaNac){
+    public Autor Insertar(String cedula,String nombres, String apellidos, String email, java.sql.Date fechaNac){
         String transacciones = "INSERT INTO Autor VALUES('"
                 + nombres + "', '"
-                + apellidos + "', ,"
-                + email + "','"
+                + apellidos + "', '"
+                + email + "', '"
                 + cedula + "', '"
-                + fechaNac + ")";
+                + fechaNac + "')";
         
         if(new DataBase().Actualizar(transacciones) > 0){
             return new Autor(cedula, nombres, apellidos, email, fechaNac);
@@ -28,18 +28,19 @@ public class DAOAutor {
         return null;
     }
     
-    public int Actualizar(int id, String nombres, String apellidos, String email, java.sql.Date fechaNac){
-        String transaccion = "UPDATE Autor SET nombres = '"
+    public int Actualizar(int id, String nombres, String apellidos, String email,String cedula, java.sql.Date fechaNac){
+        String transaccion = "UPDATE Autor SET nombres='"
                 + nombres + "', apellidos='"
-                + apellidos + "', email= "
-                + email + "',fechaNac= '"
-                + fechaNac + "',cedula='"
+                + apellidos + "', email='"
+                + email + "', fechaNac='"
+                + fechaNac+ "', cedula='"
+                + cedula  + "' WHERE id_autor="
                 + id;
         return new DataBase(). Actualizar(transaccion);
     }
     
-    public List ObtenerDatos(int id){
-        String transaccion = "DELETE FROM Autor WHERE id_autor='" + id + "'";
+    public List ObtenerDatos(){
+        String transaccion = "SELECT * FROM Autor";
         
         List<Map> registros = new DataBase(). Listar(transaccion);
         List<Autor> autores = new ArrayList();
@@ -57,7 +58,7 @@ public class DAOAutor {
     }
     
     public int Eliminar(int id){
-        String transaccion = "DELETE FROM Autor WHERE id_autor'" + id + "'";
+        String transaccion = "DELETE FROM Autor WHERE id_autor='" + id + "'";
         
         return new DataBase().Actualizar(transaccion);
     }

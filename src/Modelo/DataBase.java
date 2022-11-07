@@ -14,8 +14,8 @@ import java.util.*;
  */
 public class DataBase {
 
-    private final String URL = "jdbs:sqlserver://localhost:1434;databaseName=PRESTAMOS;"
-            + "integratedSecurity=true;" + "encript=true;trustServerCertificate=true";
+    private final String URL = "jdbc:sqlserver://localhost:1433;databaseName=PRESTAMOS;"+
+            "integratedSecurity=true;"+"encript=true;trustServerCertificate=true";
 
     private Connection conexion;
 
@@ -39,7 +39,7 @@ public class DataBase {
         return 0;
     }
 
-    private List Organizardatos(ResultSet rs) {
+    private List OrganizarDatos(ResultSet rs) {
         List filas = new ArrayList();
         try {
             int numColumnas = rs.getMetaData().getColumnCount();
@@ -50,6 +50,8 @@ public class DataBase {
                     Object valor = rs.getObject(nombreCampo);
                     renglon.put(nombreCampo, valor);
                 }
+                
+                filas.add(renglon);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -64,8 +66,8 @@ public class DataBase {
         try {
             Statement st = conexion.createStatement();
             rs = st.executeQuery(consulta);
-            resultado = Organizardatos(rs);
-        } catch (Exception e) {
+            resultado = OrganizarDatos(rs);
+        } catch (SQLException e) {
             System.out.println("No se realizó la consulta ");
             e.printStackTrace();
         }
@@ -75,6 +77,7 @@ public class DataBase {
     public boolean ejecutarProcedimiento(String nombre) {
         try {
             CallableStatement cs = conexion.prepareCall("{call" + nombre + "}");
+            return cs.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
